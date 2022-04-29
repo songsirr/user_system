@@ -18,6 +18,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 public class User implements UserDetails{
 
     @Id
@@ -43,15 +44,6 @@ public class User implements UserDetails{
     @ApiModelProperty(notes = "사용자 연락처")
     @Column(name = "phone", unique = true)
     private String phone;
-
-    @Builder
-    public User(String email, String nickname, String password, String name, String phone){
-        this.email = email;
-        this.nickname = nickname;
-        this.password = password;
-        this.name = name;
-        this.phone = phone;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

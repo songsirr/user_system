@@ -1,6 +1,7 @@
 package com.mj.user.domain.response;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,8 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ApiResponse {
 
     @ApiModelProperty(notes = "응답 상태")
@@ -21,10 +24,4 @@ public class ApiResponse {
     @ApiModelProperty(notes = "응답 데이터")
     private Object data;
 
-    @Builder
-    public ApiResponse(boolean status, String message, Object data){
-        this.status = status;
-        this.message = message;
-        this.data = data;
-    }
 }

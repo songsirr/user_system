@@ -1,12 +1,18 @@
 package com.mj.user.domain.request;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 회원가입 VO
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class SignUpVO {
 
     @ApiModelProperty(notes = "사용자 이메일")

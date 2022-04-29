@@ -15,8 +15,10 @@ import java.util.Date;
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "certificate_phone")
 @DynamicUpdate
+@Builder
 public class CertificatePhone {
 
     @Id
@@ -43,13 +45,4 @@ public class CertificatePhone {
     @Column(name = "certificated_at")
     private Date certificatedAt;
 
-    @Builder
-    public CertificatePhone(long id, String phone, String code, String status, Date requestedAt, Date certificatedAt) {
-        this.id = id;
-        this.phone = phone;
-        this.code = code;
-        this.status = status;
-        this.requestedAt = requestedAt;
-        this.certificatedAt = certificatedAt;
-    }
 }

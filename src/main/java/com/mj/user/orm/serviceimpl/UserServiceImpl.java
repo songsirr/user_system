@@ -123,9 +123,9 @@ public class UserServiceImpl implements UserService {
         }
 
         // check null or empty value for name, nickname
-        if (signUpVO.getNickname() == null || signUpVO.getNickname().isEmpty()){
+        if (signUpVO.getNickname() == null || signUpVO.getNickname().isEmpty() || signUpVO.getNickname().matches(".*\\s.*")){
             throw new InvalidValueException("INVALID NICKNAME");
-        } else if (signUpVO.getName() == null || signUpVO.getName().isEmpty()){
+        } else if (signUpVO.getName() == null || signUpVO.getName().isEmpty() || signUpVO.getName().matches(".*\\s.*")){
             throw new InvalidValueException("INVALID NAME");
         }
 
