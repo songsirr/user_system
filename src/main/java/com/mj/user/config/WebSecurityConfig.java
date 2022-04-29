@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
@@ -22,8 +22,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     //PasswordEncoder Bean 등록
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    public PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     // authenticationManager Bean 등록
@@ -47,8 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v2/api-docs").permitAll() // 스웨거
                 .antMatchers("/webjars/**").permitAll() // 스웨거
                 .antMatchers("/h2-console/**").permitAll() // H2
-                .antMatchers("/user/signup").permitAll() // 회원가입은 검증 패스
-                .antMatchers("/user/login").permitAll() // 로그인 검증 패스
+                .antMatchers("/user/**").permitAll() // 회원관련 검증 패스
                 .anyRequest().authenticated() // 그 외는 검증 시행
                 .and()
                 .headers()

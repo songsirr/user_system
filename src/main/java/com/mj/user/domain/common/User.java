@@ -2,6 +2,7 @@ package com.mj.user.domain.common;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,7 +18,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class User implements UserDetails {
+public class User implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +44,14 @@ public class User implements UserDetails {
     @Column(name = "phone", unique = true)
     private String phone;
 
+    @Builder
+    public User(String email, String nickname, String password, String name, String phone){
+        this.email = email;
+        this.nickname = nickname;
+        this.password = password;
+        this.name = name;
+        this.phone = phone;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
