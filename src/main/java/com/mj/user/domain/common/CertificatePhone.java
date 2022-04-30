@@ -33,10 +33,6 @@ public class CertificatePhone {
     @Column(name = "code")
     private String code;
 
-    @ApiModelProperty(notes = "성공 여부")
-    @Column(name = "status")
-    private String status;
-
     @ApiModelProperty(notes = "요청일시")
     @Column(name = "requested_at")
     private Date requestedAt;
