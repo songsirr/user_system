@@ -177,4 +177,8 @@ response :
   "message": "SUCCESS",
   "data": "새로 발급된 비밀번호"
 }
+<<<<<<< HEAD
 ```
+=======
+```
+>>>>>>> 6fea0dcc39fd4486166bbdf3fb73594c58f3d13d
