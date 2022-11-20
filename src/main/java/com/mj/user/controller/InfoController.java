@@ -30,20 +30,11 @@ public class InfoController {
 
     @ApiOperation(value = "내 정보 보기 API", notes = "내 정보를 봅니다.")
     @GetMapping(value = UrlConstant.URI_MY)
-    public ResponseEntity<ApiResponse> requestCertificatePhone(HttpServletRequest request){
+    public ResponseEntity<ApiResponse> requestCertificatePhone(HttpServletRequest request) throws Exception {
         ApiResponse response = null;
         String email = jwtTokenProvider.getEmail(jwtTokenProvider.resolveToken(request));
-        try {
-            UserInfo userInfo = userService.myInfo(email);
-            response = ResponseUtil.successResponseGenerator(userInfo);
-        } catch (UsernameNotFoundException unfe){
-            unfe.printStackTrace();
-            response = ResponseUtil.exceptionResponseGenerator("CAN NOT FIND USER");
-        } catch (Exception e){
-            e.printStackTrace();
-            response = ResponseUtil.exceptionResponseGenerator("INTERNAL SERVER ERROR WHILE GET MY INFO");
-        } finally {
-            return ResponseEntity.ok(response);
-        }
+        UserInfo userInfo = userService.myInfo(email);
+        response = ResponseUtil.successResponseGenerator(userInfo);
+        return ResponseEntity.ok(response);
     }
 }

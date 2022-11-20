@@ -78,15 +78,15 @@ public class UserServiceImpl implements UserService {
 
         if (!op.isPresent()){
             if (!certificatePhoneRepository.findByPhone(phone).isPresent()){ // check user requested certificate or not
-                throw new NotRequestedCertificatePhoneException();
+                throw new NotRequestedCertificatePhoneException("NOT REQUESTED CERTIFICATE PHONE");
             } else {
-                throw new InvalidCertificateCodeException();
+                throw new InvalidCertificateCodeException("INVALID CERTIFICATE CODE");
             }
         } else {
             Date now = new Date();
             CertificatePhone certificatePhone = op.get();
             if (now.getTime() - certificatePhone.getRequestedAt().getTime() > 300000){ // check certificate timeout (over 5 min)
-                throw new CertificateTimeOutException();
+                throw new CertificateTimeOutException("CERTIFICATE TIMEOUT");
             }
             certificatePhone.setCertificatedAt(now);
             certificatePhoneRepository.save(certificatePhone);
@@ -104,13 +104,13 @@ public class UserServiceImpl implements UserService {
 
         // check certificated or not phone
         if (!cp.isPresent()){
-            throw new NotCertificatedPhoneException();
+            throw new NotCertificatedPhoneException("NOT CERTIFICATED PHONE");
         }
 
         // check certificate timeout (over 5 min)
         Date now = new Date();
         if (now.getTime() - cp.get().getCertificatedAt().getTime() > 300000){
-            throw new CertificateTimeOutException();
+            throw new CertificateTimeOutException("CERTIFICATE TIMEOUT");
         }
 
         // check duplicated value of user
@@ -167,14 +167,14 @@ public class UserServiceImpl implements UserService {
         } else if (userRepository.findByPhone(loginVO.getValue()).isPresent()){
             u = userRepository.findByPhone(loginVO.getValue()).get(); // login with phone
         } else {
-            throw new UsernameNotFoundException("");
+            throw new UsernameNotFoundException("CAN NOT FIND USER");
         }
 
         // check user password
         if (passwordEncoder.matches(loginVO.getPassword(), u.getPassword())){
             return u;
         } else {
-            throw new InvalidPasswordException();
+            throw new InvalidPasswordException("INVALID PASSWORD");
         }
     }
 
@@ -186,19 +186,19 @@ public class UserServiceImpl implements UserService {
         // check exist user with phone
         Optional<User> optionalUser = userRepository.findByPhone(phone);
         if (!optionalUser.isPresent()){
-            throw new UsernameNotFoundException("");
+            throw new UsernameNotFoundException("CAN NOT FIND USER");
         }
 
         // check certificated or not phone
         Optional<CertificatePhone> cp =  certificatePhoneRepository.findByPhoneAndCertificatedAtIsNotNull(phone);
         if (!cp.isPresent()){
-            throw new NotCertificatedPhoneException();
+            throw new NotCertificatedPhoneException("NOT CERTIFICATED PHONE");
         }
 
         // check certificate timeout (over 5 min)
         Date now = new Date();
         if (now.getTime() - cp.get().getCertificatedAt().getTime() > 300000){
-            throw new CertificateTimeOutException();
+            throw new CertificateTimeOutException("CERTIFICATE TIMEOUT");
         }
 
         String password = PasswordUtil.gen();
@@ -212,7 +212,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserInfo myInfo(String email) throws UsernameNotFoundException{
-        User u = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(""));
+        User u = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("CAN NOT FIND USER"));
         UserInfo userInfo = new UserInfo(u);
         return userInfo;
     }
